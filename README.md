@@ -7,7 +7,7 @@ I know that there are many ways to skin this cat, especially when adopting Consu
 - Nomad cluster running "normally"
     - In this example, we have 1 server and 1 client
 - New Nomad client nodes join cluster on a regular basis in a state of "bootstrapping"
-    - ```
+    - ```hcl
       meta {
         state = "bootstrapping"
       }
@@ -17,7 +17,7 @@ I know that there are many ways to skin this cat, especially when adopting Consu
 - New Nomad client nodes are "bootstrapped" with a specific Nomad job
     - Simple Ansible playbook running against localhost
     - This job will put new Nomad clients into a state of "ready"
-        - ```
+        - ```hcl
           meta {
             state = "ready"
           }
@@ -35,7 +35,7 @@ I know that there are many ways to skin this cat, especially when adopting Consu
 - Deploy "normal" `sleep.hcl` job
     - `nomad job run /vagrant/sleep.hcl`
     - Will only deploy to "ready" Nomad clients using contraint
-        - ```
+        - ```hcl
           constraint {
             attribute = "${meta.state}"
             value     = "ready"
