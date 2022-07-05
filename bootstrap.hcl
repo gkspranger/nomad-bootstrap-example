@@ -16,6 +16,16 @@ job "nomad-bootstrap" {
     task "ansible-bootstrap" {
       driver = "raw_exec"
 
+      artifact {
+        source      = "git::https://github.com/gkspranger/nomad-bootstrap-example"
+        destination = "${NOMAD_TASK_DIR}/repo"
+
+        options {
+          ref = "main"
+          depth = 1
+        }
+      }
+
       config {
         command = "bash"
         args    = [
@@ -23,7 +33,7 @@ job "nomad-bootstrap" {
           <<-EOF
           /usr/local/bin/ansible-playbook \
           -i 127.0.0.1, \
-          /vagrant/ansible/bootstrap.yml
+          ${NOMAD_TASK_DIR}/repo/ansible/bootstrap.yml
           EOF
         ]
       }
